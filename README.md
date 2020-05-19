@@ -18,4 +18,5 @@ This repository is suposed to be used for a project in the CCI-36, graph computi
     
 ## We suggest you to use the VScode IDE
 
+## Please, when pushing, follow our convention of english commits 
     
