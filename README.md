@@ -5,6 +5,7 @@ This repository is suposed to be used for a project in the CCI-36, graph computi
   
   * Some use notion:
     blog.teamtreehouse.com/the-beginners-guide-to-three-js
+    www.creativebloq.com/how-to/get-started-with-webgl-using-threejs
 
   * Three.js documentation:
     threejs.org
@@ -15,6 +16,6 @@ This repository is suposed to be used for a project in the CCI-36, graph computi
   * Three.js repository:
     https://github.com/mrdoob/three.js/
     
-## 
+## We suggest you to use the VScode IDE
 
     
