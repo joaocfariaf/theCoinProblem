@@ -18,5 +18,10 @@ This repository is suposed to be used for a project in the CCI-36, graph computi
     
 ## We suggest you to use the VScode IDE
 
+## To install dependencies:
+chmod +x install_dependencies
+./install_dependencies.sh
+# You can execute the commmands in install_dependencies.sh, instead
+
+
 ## Please, when pushing, follow our convention of english commits 
-    

@@ -1,6 +1,0 @@
-#The program is used for ubunutu18.04
-dist: bionic
-#Selects the language that is used in the project
-language: node_js
-node_js:
-  - 7
