@@ -20,7 +20,9 @@ const mtlLoader = new THREE.MTLLoader();
 mtlLoader.setPath('/blender-files/');
 
 // var texture = new THREE.TextureLoader().load( "https://images.pexels.com/photos/235525/pexels-photo-235525.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" );
-var texture = new THREE.TextureLoader().load( "https://lh3.googleusercontent.com/proxy/G-sluSmuY-HXoCyIL4tyY1618xGSUIgrVps7H8ILzb_XRCztmvcDADSHYN7lOnjbbaFwOlMni-Bk5QUaNAbSB4Pyc3ZEBQFvBEI8_WZSW57hPrFCR7tF71NdxBmNqLTVlU2LRsyjH6i9JI1JG4DJIFw" );
+var texture = new THREE.TextureLoader().load( 'https://images.pexels.com/photos/207300/pexels-photo-207300.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' );
+
+
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.repeat.set( 0.5, 2 );
