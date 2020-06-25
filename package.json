@@ -1,0 +1,25 @@
+{
+  "name": "theCoinProblem",
+  "version": "1.0.0",
+  "description": "This repository is suposed to be used for a project in the CCI-36, graph computing classes.",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaocfariaf/theCoinProblem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaocfariaf/theCoinProblem/issues"
+  },
+  "homepage": "https://github.com/joaocfariaf/theCoinProblem#readme"
+}
