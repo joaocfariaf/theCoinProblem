@@ -46,6 +46,7 @@ function init()
 	{
 		this.rotationSpeed 		= 0.05;
 		this.translationSpeed 	= 0.05;
+		this.InfluenceFactor 	= 0.05;
 		this.showRay 			= true;
 	};
 	
@@ -54,6 +55,7 @@ function init()
 	);
 	gui.add(controls, 'rotationSpeed', 0, 0.5);
 	gui.add(controls, 'translationSpeed', 0, 0.5);
+	gui.add(controls, 'InfluenceFactor', 0, 0.5);
 	
 	function animate() {
 	// <!-- fala para o navegador que deseja-se realizar uma animação e pede que o navegador chame uma função específica para atualizar um quadro de animação-->
@@ -64,10 +66,10 @@ function init()
 
 		if(praFrenteCubo1 == true)
 		{
-			cube1.position.z += controls.translationSpeed;
+			cube1.position.z += (esfera.position.y/100)*controls.InfluenceFactor;
 		}else
 		{
-			cube1.position.z -= controls.translationSpeed;
+			cube1.position.z -= (esfera.position.y/100)*controls.InfluenceFactor;
 		}
 		
 		if(praFrenteEsfera == true)
@@ -119,10 +121,6 @@ function init()
 	{
 		var xDoMouse = event.clientX;
 		var yDoMouse = event.clientY;
-		
-		//agora precisamos converter
-		//o x e y de tela do mouse em
-		//coordenadas de mundo
 		
 		//normalizar x e y do mouse
 		xDoMouse = (xDoMouse / window.innerWidth) * 2 - 1;
