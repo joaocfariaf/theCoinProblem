@@ -35,9 +35,9 @@ function init()
 	
 	document.body.appendChild(renderer.domElement); //<!-- adiciona o renderer ao documento HTML -->
 
-	praFrenteCubo1 = true;
-	praFrenteEsfera = true;
-	praFrenteCubo2 = true;
+	// praFrenteCubo1 = true;
+	// praFrenteEsfera = true;
+	// praFrenteCubo2 = true;
 
 	document.addEventListener('mousedown', onDocMouseDown);
 	document.addEventListener('mousemove', onDocMouseMove);
@@ -45,8 +45,8 @@ function init()
 	var controls = new function () 
 	{
 		this.rotationSpeed 		= 0.05;
-		this.translationSpeed 	= 0.05;
-		this.InfluenceFactor 	= 0.05;
+		// this.translationSpeed 	= 0.05;
+		this.InfluenceFactor 	= 1;
 		this.showRay 			= true;
 	};
 	
@@ -54,63 +54,26 @@ function init()
 		{autoplace: false, width: 600}
 	);
 	gui.add(controls, 'rotationSpeed', 0, 0.5);
-	gui.add(controls, 'translationSpeed', 0, 0.5);
-	gui.add(controls, 'InfluenceFactor', 0, 0.5);
-	
+	// gui.add(controls, 'translationSpeed', 0, 0.5);
+	gui.add(controls, 'InfluenceFactor', 1, 10);
+
+	// cube1.position.z = 5
+	var t = 0;
 	function animate() {
 	// <!-- fala para o navegador que deseja-se realizar uma animação e pede que o navegador chame uma função específica para atualizar um quadro de animação-->
 		requestAnimationFrame( animate );
 
-		cube1.rotation.x += controls.rotationSpeed;
-		cube2.rotation.z += controls.rotationSpeed;
+		cube1.rotation.y += controls.rotationSpeed;
+		cube2.rotation.y += controls.rotationSpeed;
 
-		if(praFrenteCubo1 == true)
-		{
-			cube1.position.z += (esfera.position.y/100)*controls.InfluenceFactor;
-		}else
-		{
-			cube1.position.z -= (esfera.position.y/100)*controls.InfluenceFactor;
-		}
+		t += 0.01;
+		cube1.position.z = 5*Math.cos(controls.InfluenceFactor*t);
+		cube1.position.x = 5*Math.sin(controls.InfluenceFactor*t);
+
+		cube2.position.z = 7*Math.cos(controls.InfluenceFactor*t);
+		cube2.position.x = 7*Math.sin(controls.InfluenceFactor*t);
+
 		
-		if(praFrenteEsfera == true)
-		{
-			esfera.position.y += controls.translationSpeed;
-		}else
-		{
-			esfera.position.y -= controls.translationSpeed;
-		}
-
-		if(praFrenteCubo2 == true)
-		{
-			cube2.position.x += controls.translationSpeed;
-		}else
-		{
-			cube2.position.x -= controls.translationSpeed;
-		}
-
-		if(cube1.position.z >= 10)
-		{
-			praFrenteCubo1 = false;
-		}else if(cube1.position.z <= 0)
-		{
-			praFrenteCubo1 = true;
-		}
-		
-		if(cube2.position.x >= 10)
-		{
-			praFrenteCubo2 = false;
-		}else if(cube2.position.x <= 0)
-		{
-			praFrenteCubo2 = true;
-		}
-
-		if(esfera.position.y >= 10)
-		{
-			praFrenteEsfera = false;
-		}else if(esfera.position.y <= 0)
-		{
-			praFrenteEsfera = true;
-		}
 
 		renderer.render( scene, camera );
 	};
