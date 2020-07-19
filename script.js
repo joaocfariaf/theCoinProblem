@@ -3,7 +3,11 @@ function init()
 	var i = 0;
 	var tube = [];
 	var scene = new THREE.Scene(); 
-	
+
+	// const loader = new THREE.TextureLoader();
+	// const bgTexture = loader.load('https://www.jungnapratica.com.br/wp-content/uploads/2017/01/stars-wallpapers-HD3.jpg');
+	// scene.background = bgTexture;
+
 	// <!--ângulo de abertura da câmera, aspect ration, near e far-->
 	var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.position.set(10, 10, 10);
