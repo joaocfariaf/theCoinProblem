@@ -1,3 +1,8 @@
+import { EventDispatcher } from '../core/EventDispatcher.js';
+import { Texture } from '../textures/Texture.js';
+import { LinearFilter } from '../constants.js';
+import { Vector4 } from '../math/Vector4.js';
+
 /**
  * @author szimek / https://github.com/szimek/
  * @author alteredq / http://alteredqualia.com/
@@ -9,31 +14,38 @@
  * Texture parameters for an auto-generated target texture
  * depthBuffer/stencilBuffer: Booleans to indicate if we should generate these buffers
 */
-THREE.WebGLRenderTarget = function ( width, height, options ) {
-
-	this.uuid = THREE.Math.generateUUID();
+function WebGLRenderTarget( width, height, options ) {
 
 	this.width = width;
 	this.height = height;
 
-	this.scissor = new THREE.Vector4( 0, 0, width, height );
+	this.scissor = new Vector4( 0, 0, width, height );
 	this.scissorTest = false;
 
-	this.viewport = new THREE.Vector4( 0, 0, width, height );
+	this.viewport = new Vector4( 0, 0, width, height );
 
 	options = options || {};
 
-	if ( options.minFilter === undefined ) options.minFilter = THREE.LinearFilter;
+	this.texture = new Texture( undefined, options.mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding );
 
-	this.texture = new THREE.Texture( undefined, undefined, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding );
+	this.texture.image = {};
+	this.texture.image.width = width;
+	this.texture.image.height = height;
+
+	this.texture.generateMipmaps = options.generateMipmaps !== undefined ? options.generateMipmaps : false;
+	this.texture.minFilter = options.minFilter !== undefined ? options.minFilter : LinearFilter;
 
 	this.depthBuffer = options.depthBuffer !== undefined ? options.depthBuffer : true;
 	this.stencilBuffer = options.stencilBuffer !== undefined ? options.stencilBuffer : true;
-	this.depthTexture = null;
+	this.depthTexture = options.depthTexture !== undefined ? options.depthTexture : null;
 
-};
+}
 
-Object.assign( THREE.WebGLRenderTarget.prototype, THREE.EventDispatcher.prototype, {
+WebGLRenderTarget.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
+
+	constructor: WebGLRenderTarget,
+
+	isWebGLRenderTarget: true,
 
 	setSize: function ( width, height ) {
 
@@ -41,6 +53,9 @@ Object.assign( THREE.WebGLRenderTarget.prototype, THREE.EventDispatcher.prototyp
 
 			this.width = width;
 			this.height = height;
+
+			this.texture.image.width = width;
+			this.texture.image.height = height;
 
 			this.dispose();
 
@@ -81,3 +96,6 @@ Object.assign( THREE.WebGLRenderTarget.prototype, THREE.EventDispatcher.prototyp
 	}
 
 } );
+
+
+export { WebGLRenderTarget };
