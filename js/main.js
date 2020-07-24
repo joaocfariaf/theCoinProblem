@@ -155,12 +155,12 @@ scene.add(s);
 var k = 0;
 var count = 0;
 
-// document.addEventListener('mousedown', onDocMouseDown);
-// document.addEventListener('mousemove', onDocMouseMove);
+document.addEventListener('mousedown', onDocMouseDown);
+document.addEventListener('mousemove', onDocMouseMove);
 
-  /*
+  /////////////////////////////////////////
 
-	var controls = new function () 
+	var controles = new function () 
 	{
 		this.rotationSpeed 		= 0.05;
 		// this.translationSpeed 	= 0.05;
@@ -171,11 +171,11 @@ var count = 0;
 	var gui = new dat.GUI(
 		{autoplace: false, width: 600}
 	);
-	gui.add(controls, 'rotationSpeed', 0, 0.5);
-	// gui.add(controls, 'translationSpeed', 0, 0.5);
-	gui.add(controls, 'InfluenceFactor', 1, 10);
+	gui.add(controles, 'rotationSpeed', 0, 0.5);
+	// gui.add(controles, 'translationSpeed', 0, 0.5);
+	gui.add(controles, 'InfluenceFactor', 1, 10);
 
-	*/////////////////////////////////////////
+	/////////////////////////////////////////
 
 function animate() { 
   controls.update();
@@ -208,7 +208,7 @@ function animate() {
 } 
 
 animate();
-/* 
+
 function onDocMouseDown(event)
 	{
 		var xDoMouse = event.clientX;
@@ -247,7 +247,7 @@ function onDocMouseDown(event)
 	
 	function onDocMouseMove(event)
 	{
-		if(controls.showRay)
+		if(controles.showRay)
 		{
 			var xDoMouse = event.clientX;
 			var yDoMouse = event.clientY;
@@ -271,4 +271,4 @@ function onDocMouseDown(event)
 		mouse.y = e.clientY;
 
   }
-  */
+
