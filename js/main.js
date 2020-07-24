@@ -23,88 +23,40 @@ scene.add(new THREE.AmbientLight(0x404040));
 
 //////////////////////////////////////////////////////
 
-// Obtendo textura a partir de uma imagem da web (definindo wrapping)
+// Cria um estilo de moeda para adicionar
 var texture = new THREE.TextureLoader().load( "https://media.istockphoto.com/photos/white-color-frosted-glass-texture-background-picture-id696307908?k=6&m=696307908&s=612x612&w=0&h=Bwtr8etrC6DnrQP0pbCP7v14aOO5fw46kCHxvL74CMw=" );
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.repeat.set( 0.5, 2 );
-
+var texture2 = new THREE.TextureLoader().load("texture.jpg");
+texture2.wrapS = THREE.RepeatWrapping;
+texture2.wrapT = THREE.RepeatWrapping;
+texture2.repeat.set( 0.5, 2 );
 var material = new THREE.MeshLambertMaterial( { color: 0x00ffff, wireframe: false, map:texture } ); 
-
 // // Importando objeto construído no blender
-var cube2;
-
+var moeda;
 const objLoader = new THREE.OBJLoader();
 objLoader.setPath('./blender-files/');
-
 const mtlLoader = new THREE.MTLLoader();
 mtlLoader.setPath('./blender-files/');
-
-objLoader.load('cube.obj', (object) => {
-    object.traverse( function( child ) {
-        if ( child instanceof THREE.Mesh ) {
-            child.material = material;
-        }
-    } );
-    cube2 = object;
-
-    scene.add(object);
-    object.position.set(-15,15,0)
-});
-
-// // GLSL \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-const vShader = `
-varying vec3 vNormal;
-
-void main() {
-  //set the vNormal value with
-  // the attribute value passed
-  // in by Three.js
-  vNormal = normal;
-
-  gl_Position = projectionMatrix *
-                modelViewMatrix *
-                vec4(position,1.0);
-
-}
-`
-const fShader = `
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
-
-void main() {
-	vec2 st = gl_FragCoord.xy/u_resolution;
-	gl_FragColor = vec4(st.x,st.y,0.0,1.0);
-}
-`
 // shader uniforms
-const uniforms = {
-  u_mouse: { value: { x: window.innerWidth / 2, y: window.innerHeight / 2 } },
-    u_resolution: { value: { x: window.innerWidth, y: window.innerHeight } },
-  u_time: { value: 0.0 },
-  u_color: { value: new THREE.Color(0xFF0000) }
-}
-
-
+var shader = THREE.BlendShader;
+var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+uniforms[ "tDiffuse1" ].value = texture;
+uniforms[ "tDiffuse2" ].value = texture2;
 // Objeto com Shader
-var cube3 
-
+var moeda; 
 objLoader.load('cube.obj', (object) => {
     object.traverse( function( child ) {
         if ( child instanceof THREE.Mesh ) {
             child.material = new THREE.ShaderMaterial({
-                              vertexShader: vShader,
-                              fragmentShader: fShader,
-                              uniforms
+                              uniforms: uniforms,
+                              vertexShader: shader.vertexShader,
+                              fragmentShader: shader.fragmentShader
                             });;
         }
     } );
-    cube3 = object;
+    moeda = object;
     scene.add(object);
     object.position.set(15,15,0)
 });
@@ -203,6 +155,28 @@ scene.add(s);
 var k = 0;
 var count = 0;
 
+// document.addEventListener('mousedown', onDocMouseDown);
+// document.addEventListener('mousemove', onDocMouseMove);
+
+  /*
+
+	var controls = new function () 
+	{
+		this.rotationSpeed 		= 0.05;
+		// this.translationSpeed 	= 0.05;
+		this.InfluenceFactor 	= 1;
+		this.showRay 			= true;
+	};
+	
+	var gui = new dat.GUI(
+		{autoplace: false, width: 600}
+	);
+	gui.add(controls, 'rotationSpeed', 0, 0.5);
+	// gui.add(controls, 'translationSpeed', 0, 0.5);
+	gui.add(controls, 'InfluenceFactor', 1, 10);
+
+	*/////////////////////////////////////////
+
 function animate() { 
   controls.update();
   if (count == 0){
@@ -224,9 +198,9 @@ function animate() {
     if (k==-30) count=0;
   }
 
-  if (cube2) {
-    cube2.rotation.x += 0.01;
-    cube2.rotation.z += 0.01;
+  if (moeda) {
+    moeda.rotation.x += 0.01;
+    moeda.rotation.z += 0.01;
   }
 
   renderer.render(scene, camera);
@@ -234,4 +208,67 @@ function animate() {
 } 
 
 animate();
+/* 
+function onDocMouseDown(event)
+	{
+		var xDoMouse = event.clientX;
+		var yDoMouse = event.clientY;
+		
+		//normalizar x e y do mouse
+		xDoMouse = (xDoMouse / window.innerWidth) * 2 - 1;
+		yDoMouse = -(yDoMouse / window.innerHeight) * 2 + 1;
+		
+		var vectorClick = new THREE.Vector3(xDoMouse, yDoMouse, 1);
+		
+		//converte de coordenadas de tela normalizada (-1 a +1) para coordenadas de mundo
+		vectorClick = vectorClick.unproject(camera);
+						
+		//raycasting: traça um raio de um ponto a outro, verificando se colide
+		//com algum objeto
+		var raycaster = new THREE.Raycaster(camera.position, vectorClick.sub(camera.position).normalize());
+		
+		//chamar a função que "testa" se o raio colidiu com algum
+		//objeto
+		var intersects = raycaster.intersectObjects([cube1, cube2, esfera]);
+		
+		//se o vetor não for vazio, houve interseção do raio com algum objeto
+		if(intersects.length > 0)
+		{
+			//houve uma colisão, torne o objeto clicado transparente
+			if(intersects[0].object.material.transparent  == true){
+				intersects[0].object.material.transparent = false
+			}
+			else{
+				intersects[0].object.material.transparent  = true;
+				intersects[0].object.material.opacity 	   = 0.1; 
+			}
+		}
+	}
+	
+	function onDocMouseMove(event)
+	{
+		if(controls.showRay)
+		{
+			var xDoMouse = event.clientX;
+			var yDoMouse = event.clientY;
+			
+			//normalizar x e y do mouse
+			xDoMouse = (xDoMouse / window.innerWidth) * 2 - 1;
+			yDoMouse = -(yDoMouse / window.innerHeight) * 2 + 1;
+			
+			var vectorClick = new THREE.Vector3(xDoMouse, yDoMouse, 1);
+			
+			//converte de coordenadas de tela normalizada (-1 a +1) para coordenadas de mundo
+			vectorClick = vectorClick.unproject(camera);
+							
+						
+		}
+	}
 
+	function onMouseMove( e ) {
+
+		mouse.x = e.clientX;
+		mouse.y = e.clientY;
+
+  }
+  */
