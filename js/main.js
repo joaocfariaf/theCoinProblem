@@ -173,21 +173,21 @@ function init()
   document.addEventListener('mousemove', onDocMouseMove);
 
     /////////////////////////////////////////
-
+    var aux;
     var controles = new function () 
     {
-      this.rotationSpeed 		= 0.05;
-      // this.translationSpeed 	= 0.05;
-      this.InfluenceFactor 	= 1;
-      this.showRay 			= true;
+      this.weight1 = 5;
+      this.weight2 = 5;
+      this.weight3 = 5;
     };
     
     var gui = new dat.GUI(
       {autoplace: false, width: 600}
     );
-    gui.add(controles, 'rotationSpeed', 0, 0.5);
-    // gui.add(controles, 'translationSpeed', 0, 0.5);
-    gui.add(controles, 'InfluenceFactor', 1, 10);
+
+    gui.add(controles, 'weight1', 1, 10);
+    gui.add(controles, 'weight2', 1, 10);
+    gui.add(controles, 'weight3', 1, 10);
 
     /////////////////////////////////////////
   var leftCoin; var leftPlateFree = new Boolean(true); var leftWeight = 0;
@@ -253,6 +253,9 @@ function init()
 
   function animate() { 
     controls.update();
+    coins_weight[0] = controles.weight1;
+    coins_weight[1] = controles.weight2;
+    coins_weight[2] = controles.weight3;
     /* if (icosaedro) {
       icosaedro.rotation.x += 0.01;
       icosaedro.rotation.z += 0.01;
@@ -286,7 +289,7 @@ function init()
       //objeto
       var intersects ;
       // raycaster.intersectObjects(coins);
-      var aux;
+      
 
       for(aux = 0; aux < 3; aux++){
         intersects = raycaster.intersectObjects([coins[aux]]);
