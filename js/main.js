@@ -169,6 +169,8 @@ function init()
     scene.add(coin);
   }
 
+  var correction = sphere_ratio*Math.sqrt(2)/2 - right_plate.position.y;
+
   document.addEventListener('mousedown', onDocMouseDown);
   document.addEventListener('mousemove', onDocMouseMove);
 
@@ -206,6 +208,13 @@ function init()
           left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
+          if(rightCoin)
+          {
+            rightCoin.position.y = correction + right_plate.position.y;
+          }
+          if (leftCoin){
+            leftCoin.position.y = correction + left_plate.position.y;
+          }
       }
       count=1;
     }
@@ -220,6 +229,13 @@ function init()
         left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
         // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
         k--;
+        if(rightCoin)
+        {
+          rightCoin.position.y = correction + right_plate.position.y;
+        }
+        if (leftCoin){
+          leftCoin.position.y = correction + left_plate.position.y;
+        }
       }
       count=-1;
     } 
@@ -235,6 +251,13 @@ function init()
           left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           k--;
+          if(rightCoin)
+          {
+            rightCoin.position.y = correction + right_plate.position.y;
+          }
+          if (leftCoin){
+            leftCoin.position.y = correction + left_plate.position.y;
+          }
         }
       }
       else if (count == -1){
@@ -248,6 +271,13 @@ function init()
           left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
+          if(rightCoin)
+          {
+            rightCoin.position.y = correction + right_plate.position.y;
+          }
+          if (leftCoin){
+            leftCoin.position.y = correction + left_plate.position.y;
+          }
         }
       }
       count = 0;
@@ -319,7 +349,7 @@ function init()
         } 
         else if(leftPlateFree  == true){
           intersects[0].object.position.x = (arm_length/2);
-          intersects[0].object.position.y = sphere_ratio*Math.sqrt(2)/2;
+          intersects[0].object.position.y = correction + right_plate.position.y;
           leftCoin = intersects[0].object;
           leftPlateFree = false;
           /*for(aux = 0; aux < coins.length(); aux++){
@@ -330,7 +360,7 @@ function init()
         }         
         else if (rightPlateFree  == true){
           intersects[0].object.position.x = (-arm_length/2);
-          intersects[0].object.position.y = sphere_ratio*Math.sqrt(2)/2; 
+          intersects[0].object.position.y = correction + right_plate.position.y; 
           rightCoin = intersects[0].object;
           rightPlateFree = false;
           /*for(aux = 0; aux < coins.length(); aux++){
