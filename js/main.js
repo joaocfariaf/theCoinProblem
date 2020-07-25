@@ -163,7 +163,7 @@ function init()
   var cont = 0;
   for (cont = 0; cont < 3; cont++) { 
     var coin = new THREE.Mesh(coin_geometry, blend_material);
-    coin.position.set(5 - 5*cont, -10, 0);
+    coin.position.set(5*cont-5, -10, 0);
     coins.push(coin);
     coins_weight.push(stadard_coin_weight);
     scene.add(coin);
@@ -190,32 +190,34 @@ function init()
     gui.add(controles, 'weight3', 1, 10);
 
     /////////////////////////////////////////
-  var leftCoin; var leftPlateFree = new Boolean(true); var leftWeight = 0;
-  var rightCoin; var rightPlateFree = new Boolean(true); var rightWeight = 0;
-
+  var leftCoin;  var leftWeight = 0;
+  var rightCoin; var rightWeight = 0;
+  var leftPlateFree = new Boolean(true); var rightPlateFree = new Boolean(true);
 
   function updateBalance () {
     if (leftWeight < rightWeight){
-      while(k<=30){
-          arm.rotation.z += 0.01;
+      while(k<=30000){
+          // for(var intern = 0; intern < 99999; intern++);
+          arm.rotation.z += 0.00001;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y -= (arm_length/2)*Math.sin(0.01);
+          right_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
           // rightCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y += (arm_length/2)*Math.sin(0.01);
+          left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
       }
       count=1;
     }
     else if (leftWeight > rightWeight){
-      while (k >= -30){
-        arm.rotation.z -= 0.01;
+      while (k >= -30000){
+        // for(var intern = 0; intern < 999999; intern++);
+        arm.rotation.z -= 0.00001;
         right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-        right_plate.position.y += (arm_length/2)*Math.sin(0.01);
+        right_plate.position.y += (arm_length/2)*Math.sin(0.00001);
         // rightCoin.position.y += (arm_length/2)*Math.sin(0.01);
         left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-        left_plate.position.y -= (arm_length/2)*Math.sin(0.01);
+        left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
         // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
         k--;
       }
@@ -224,24 +226,26 @@ function init()
     else {
       if (count == 1){
         while (k > 0){
-          arm.rotation.z -= 0.01;
+          // for(var intern = 0; intern < 999999; intern++);
+          arm.rotation.z -= 0.00001;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y += (arm_length/2)*Math.sin(0.01);
+          right_plate.position.y += (arm_length/2)*Math.sin(0.00001);
           // rightCoin.position.y += (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y -= (arm_length/2)*Math.sin(0.01);
+          left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           k--;
         }
       }
       else if (count == -1){
         while(k < 0){
-          arm.rotation.z += 0.01;
+          // for(var intern = 0; intern < 999999; intern++);
+          arm.rotation.z += 0.00001;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y -= (arm_length/2)*Math.sin(0.01);
+          right_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
           // rightCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y += (arm_length/2)*Math.sin(0.01);
+          left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
         }
@@ -256,6 +260,8 @@ function init()
     coins_weight[0] = controles.weight1;
     coins_weight[1] = controles.weight2;
     coins_weight[2] = controles.weight3;
+    updateBalance();
+
     /* if (icosaedro) {
       icosaedro.rotation.x += 0.01;
       icosaedro.rotation.z += 0.01;
@@ -299,14 +305,14 @@ function init()
         //houve uma colisão
         if (leftCoin == intersects[0].object) {
           intersects[0].object.position.y = -10;
-          intersects[0].object.position.x = 5 - 5*aux;
+          intersects[0].object.position.x = 5*aux-5;
           leftCoin = null;
           leftWeight = 0;
           leftPlateFree = true;
         }
         else if (rightCoin == intersects[0].object) {
           intersects[0].object.position.y = -10;
-          intersects[0].object.position.x = 5 - 5*aux;
+          intersects[0].object.position.x = 5*aux-5;
           rightCoin = null;
           rightWeight = 0;
           rightPlateFree = true;
@@ -333,7 +339,7 @@ function init()
           }*/
           rightWeight = coins_weight[aux];
         }  
-        updateBalance ();
+        //updateBalance ();
         break;
       }
     }
