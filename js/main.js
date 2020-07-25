@@ -176,6 +176,8 @@ function init()
 
     /////////////////////////////////////////
     var aux;
+    var leftAux;
+    var rightAux;
     var controles = new function () 
     {
       this.weight1 = 5;
@@ -198,14 +200,14 @@ function init()
 
   function updateBalance () {
     if (leftWeight < rightWeight){
-      while(k<=30000){
+      if(k<=30){
           // for(var intern = 0; intern < 99999; intern++);
-          arm.rotation.z += 0.00001;
+          arm.rotation.z += 0.01;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
+          right_plate.position.y -= (arm_length/2)*Math.sin(0.01);
           // rightCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
+          left_plate.position.y += (arm_length/2)*Math.sin(0.01);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
           if(rightCoin)
@@ -215,18 +217,18 @@ function init()
           if (leftCoin){
             leftCoin.position.y = correction + left_plate.position.y;
           }
-      }
+      }else
       count=1;
     }
     else if (leftWeight > rightWeight){
-      while (k >= -30000){
+      if (k >= -30){
         // for(var intern = 0; intern < 999999; intern++);
-        arm.rotation.z -= 0.00001;
+        arm.rotation.z -= 0.01;
         right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-        right_plate.position.y += (arm_length/2)*Math.sin(0.00001);
+        right_plate.position.y += (arm_length/2)*Math.sin(0.01);
         // rightCoin.position.y += (arm_length/2)*Math.sin(0.01);
         left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-        left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
+        left_plate.position.y -= (arm_length/2)*Math.sin(0.01);
         // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
         k--;
         if(rightCoin)
@@ -236,19 +238,19 @@ function init()
         if (leftCoin){
           leftCoin.position.y = correction + left_plate.position.y;
         }
-      }
+      }else
       count=-1;
     } 
     else {
       if (count == 1){
-        while (k > 0){
+        if (k > 0){
           // for(var intern = 0; intern < 999999; intern++);
-          arm.rotation.z -= 0.00001;
+          arm.rotation.z -= 0.01;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y += (arm_length/2)*Math.sin(0.00001);
+          right_plate.position.y += (arm_length/2)*Math.sin(0.01);
           // rightCoin.position.y += (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
+          left_plate.position.y -= (arm_length/2)*Math.sin(0.01);
           // leftCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           k--;
           if(rightCoin)
@@ -261,14 +263,14 @@ function init()
         }
       }
       else if (count == -1){
-        while(k < 0){
+        if(k < 0){
           // for(var intern = 0; intern < 999999; intern++);
-          arm.rotation.z += 0.00001;
+          arm.rotation.z += 0.01;
           right_plate.position.x = (arm_length/2)*(1-Math.cos(arm.rotation.z));
-          right_plate.position.y -= (arm_length/2)*Math.sin(0.00001);
+          right_plate.position.y -= (arm_length/2)*Math.sin(0.01);
           // rightCoin.position.y -= (arm_length/2)*Math.sin(0.01);
           left_plate.position.x = (arm_length/2)*(1+Math.cos(arm.rotation.z));
-          left_plate.position.y += (arm_length/2)*Math.sin(0.00001);
+          left_plate.position.y += (arm_length/2)*Math.sin(0.01);
           // leftCoin.position.y += (arm_length/2)*Math.sin(0.01);
           k++;
           if(rightCoin)
@@ -279,8 +281,8 @@ function init()
             leftCoin.position.y = correction + left_plate.position.y;
           }
         }
-      }
-      count = 0;
+      }else 
+        count = 0;
     }
   }
   
@@ -290,6 +292,13 @@ function init()
     coins_weight[0] = controles.weight1;
     coins_weight[1] = controles.weight2;
     coins_weight[2] = controles.weight3;
+    if(rightCoin)
+    {
+      rightWeight = coins_weight[rightAux];
+    }
+    if (leftCoin){
+      leftWeight = coins_weight[leftAux];
+    }
     updateBalance();
 
     /* if (icosaedro) {
@@ -356,6 +365,7 @@ function init()
             if(coins[aux] == intersects[0].object)
               break;
           }*/
+          leftAux = aux;
           leftWeight = coins_weight[aux];
         }         
         else if (rightPlateFree  == true){
@@ -367,6 +377,7 @@ function init()
             if(coins[aux] == intersects[0].object)
               break;
           }*/
+          rightAux = aux;
           rightWeight = coins_weight[aux];
         }  
         //updateBalance ();
